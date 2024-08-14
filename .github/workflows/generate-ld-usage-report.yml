@@ -23,4 +23,4 @@ jobs:
         with:
           accessToken: ${{ secrets.LD_ACCESS_TOKEN }}
           projKey: default
-          outputDir: "ld_code_refs"
+          outDir: "ld_code_refs"

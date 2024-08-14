@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Code Reference Highlights</title>
+    <!-- Include Prism.js CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.css"
+    />
+    <!-- Include Prism.js keep-markup plugin CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/keep-markup/prism-keep-markup.min.css"
+    />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+      .code-block {
+        border: 1px solid;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+      .path {
+        padding: 5px;
+        line-height:28px;
+      }
+      pre {
+        padding: 10px;
+        background: #f9f9f9;
+        margin: 0 !important;
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
+      }
+      code {
+        font-size: 1em;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Code Reference Highlights</h1>
+    <div>
+      {% for flagKey, rows in data.items() %}
+        <div>Flag: {{ flagKey }}</div>
+        {% for row in rows %}
+          <div class="code-block">
+            <div class="path">{{row['path']}}</div>
+            <pre><code class="language-{{row['language']}}">{{ row['lines'] }}</code></pre>
+          </div>
+        {% endfor %}
+      {% endfor %}
+    </div>
+
+    <!-- Include Prism.js JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <!-- Include Prism.js keep-markup plugin -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/keep-markup/prism-keep-markup.min.js"></script>
+  </body>
+</html>

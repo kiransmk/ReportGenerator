@@ -18,9 +18,19 @@ jobs:
         with:
           fetch-depth: 11
 
-      - name: LaunchDarkly Code References
-        uses: launchdarkly/find-code-references@v2
-        with:
-          accessToken: ${{ secrets.LD_ACCESS_TOKEN }}
-          projKey: default
-          outDir: "ld_code_refs"
+      - name: Install ld-find-code-refs
+        run: |
+          wget -O ld-find-code-refs https://github.com/launchdarkly/ld-find-code-refs/releases/latest/download/ld-find-code-refs-linux-amd64
+          chmod +x ld-find-code-refs
+          sudo mv ld-find-code-refs /usr/local/bin/
+
+      - name: Run ld-find-code-refs
+        run: |
+          ld-find-code-refs \
+          --accessToken=${{ secrets.LD_ACCESS_TOKEN }} \
+          --projKey=default \
+          --repoName=ReportGenerator \
+          --dir=./ \
+          --outDir=ld_code_refs
+        env:
+          GIT_SSH_COMMAND: "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no"

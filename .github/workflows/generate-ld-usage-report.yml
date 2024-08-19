@@ -18,6 +18,16 @@ jobs:
         with:
           fetch-depth: 11
 
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+    
+      - name: Install Python dependencies
+        run: |
+          pip install pandas
+          pip install -r requirements.txt
+  
       - name: Create Output Directory
         run: mkdir -p ld_code_refs
 
@@ -34,7 +44,7 @@ jobs:
           --outDir=ld_code_refs
         env:
           GIT_SSH_COMMAND: "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no"
-          
+      
       - name: Generate HTML from CSV
         run: |
           python generate_html.py --input ld_code_refs/coderefs__ReportGenerator_main.csv --output ld_code_refs/index.html

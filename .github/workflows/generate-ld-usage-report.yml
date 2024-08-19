@@ -34,3 +34,13 @@ jobs:
           --outDir=ld_code_refs
         env:
           GIT_SSH_COMMAND: "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no"
+          
+      - name: Generate HTML from CSV
+        run: |
+          python generate_html.py --input ld_code_refs/coderefs__ReportGenerator_main.csv --output ld_code_refs/index.html
+  
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ld_code_refs

@@ -18,19 +18,26 @@ jobs:
         with:
           fetch-depth: 11
 
+      - name: Create Output Directory
+        run: mkdir -p ld_code_refs
+
       - name: Install ld-find-code-refs
         run: |
           wget -O ld-find-code-refs https://github.com/launchdarkly/ld-find-code-refs/releases/download/v2.12.0/ld-find-code-refs_2.12.0_linux_amd64.tar.gz
           chmod +x ld-find-code-refs
           sudo mv ld-find-code-refs /usr/local/bin/
 
-      - name: Run ld-find-code-refs
-        run: |
-          ld-find-code-refs \
-          --accessToken ${{ secrets.LD_ACCESS_TOKEN }} \
-          --projKey default \
-          --repoName ReportGenerator \
-          --dir ./ \
-          --outDir ld_code_refs
+      - name: Run ld-find-code-refs in Docker
+      run: |
+          docker run --rm \
+          -v "$(pwd)":/workspace \
+          -w /workspace \
+          -e LD_ACCESS_TOKEN=${{ secrets.LD_ACCESS_TOKEN }} \
+          launchdarkly/ld-find-code-refs \
+          --accessToken=$LD_ACCESS_TOKEN \
+          --projKey=default \
+          --repoName=ReportGenerator \
+          --dir=./ \
+          --outDir=ld_code_refs
         env:
           GIT_SSH_COMMAND: "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no"

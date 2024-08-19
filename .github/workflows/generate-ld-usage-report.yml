@@ -28,7 +28,7 @@ jobs:
           sudo mv ld-find-code-refs /usr/local/bin/
 
       - name: Run ld-find-code-refs in Docker
-      run: |
+        run: |
           docker run --rm \
           -v "$(pwd)":/workspace \
           -w /workspace \

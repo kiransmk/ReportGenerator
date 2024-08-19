@@ -31,6 +31,6 @@ jobs:
           --projKey default \
           --repoName ReportGenerator \
           --dir ./ \
-          --outDir=ld_code_refs
+          --outDir ld_code_refs
         env:
           GIT_SSH_COMMAND: "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no"

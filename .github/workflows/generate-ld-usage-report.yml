@@ -49,8 +49,12 @@ jobs:
         run: |
           python generate_html.py --input ld_code_refs/coderefs__ReportGenerator_main.csv --output ld_code_refs/index.html
   
+      - name: List Output Directory
+        run: ls -la ld_code_refs
+    
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ld_code_refs
+          publish_branch: gh-pages

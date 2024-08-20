@@ -43,6 +43,8 @@
   </head>
   <body>
     <h1>Code Reference Highlights</h1>
+    <p>Generated on: {{ timestamp }}</p>
+    <p>Repo: {{ repoName }}, Branch: {{ branchName }}</p>
     <div>
       {% for flagKey, rows in data.items() %}
         <div>Flag: {{ flagKey }}</div>

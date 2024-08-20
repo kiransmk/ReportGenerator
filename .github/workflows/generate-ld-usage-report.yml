@@ -1,12 +1,16 @@
 name: Generate HTML and Deploy to GitHub Pages
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+  workflow_dispatch:
+    inputs:
+      repo_name:
+        description: 'Repository name (e.g., owner/repo)'
+        required: true
+        default: 'owner/repo'
+      branch_name:
+        description: 'Branch name'
+        required: true
+        default: 'main'
 
 jobs:
   launchDarklyCodeReferences:
@@ -14,9 +18,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
         with:
-          fetch-depth: 11
+          repository: ${{ github.event.inputs.repo_name }}
+          ref: ${{ github.event.inputs.branch_name }}
+
+      - name: Display Inputs
+        run: |
+          echo "Repository: ${{ github.event.inputs.repo_name }}"
+          echo "Branch: ${{ github.event.inputs.branch_name }}"
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -39,7 +50,7 @@ jobs:
           launchdarkly/ld-find-code-refs \
           --accessToken=${{ secrets.LD_ACCESS_TOKEN }} \
           --projKey=default \
-          --repoName=ReportGenerator \
+          --repoName=${{ github.event.inputs.repo_name }} \
           --dir=./ \
           --outDir=ld_code_refs
         env:
@@ -47,7 +58,7 @@ jobs:
       
       - name: Generate HTML from CSV
         run: |
-          python generate_html.py ld_code_refs/coderefs__ReportGenerator_main.csv ld_code_refs/index.html
+          python generate_html.py ld_code_refs/coderefs__ReportGenerator_main.csv ld_code_refs/index.html ${{ github.event.inputs.repo_name }} ${{ github.event.inputs.branch_name }}
   
       - name: List Output Directory
         run: ls -la ld_code_refs

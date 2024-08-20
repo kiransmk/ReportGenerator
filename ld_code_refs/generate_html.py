@@ -55,7 +55,7 @@ def group_by_flagKey(data):
 def generate_html(data, output_html, repoName, branchName):
     # Load the Jinja2 template
     env = Environment(loader=FileSystemLoader('.'))
-    template = env.get_template('template.html')
+    template = env.get_template('ld_code_refs/template.html')
 
     # Create a timestamp
     timestamp = datetime.now().strftime("%B %d, %Y at %I:%M %p")

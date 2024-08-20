@@ -55,7 +55,7 @@ jobs:
       
       - name: Generate HTML from CSV
         run: |
-          python ld_code_refs/generate_html.py ld_code_refs/coderefs__ReportGenerator_main.csv ld_code_refs/index.html ${{ env.REPO_NAME }} ${{ env.BRANCH_NAME }}
+          python ld_code_refs/generate_html.py ld_code_refs/coderefs__${{ env.REPO_NAME }}_${{ env.BRANCH_NAME }}.csv ld_code_refs/index.html ${{ env.REPO_NAME }} ${{ env.BRANCH_NAME }}
       
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3

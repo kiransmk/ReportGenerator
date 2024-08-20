@@ -21,12 +21,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          repository: ${{ github.event.inputs.repo_name }}
           ref: ${{ github.event.inputs.branch_name }}
 
       - name: Display Inputs
         run: |
-          echo "Repository: ${{ github.event.inputs.repo_name }}"
           echo "Branch: ${{ github.event.inputs.branch_name }}"
 
       - name: Set up Python

@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       project_key:
-        description: 'Project Key'
+        description: 'LaunchDarkly Project Key'
         required: true
         default: 'default'
 
@@ -35,6 +35,7 @@ jobs:
           branch_name=${GITHUB_REF##*/}
           echo "Repository Name: $repo_name"
           echo "Branch Name: $repo_name"
+          echo "Using LaunchDarkly project key: ${{ github.event.inputs.project_key }}"
           echo "REPO_NAME=$repo_name" >> $GITHUB_ENV
           echo "BRANCH_NAME=$branch_name" >> $GITHUB_ENV
 
@@ -45,7 +46,7 @@ jobs:
           -w /workspace \
           launchdarkly/ld-find-code-refs \
           --accessToken=${{ secrets.LD_ACCESS_TOKEN }} \
-          --projKey=${{ github.event.inputs.branch_name }} \
+          --projKey=${{ github.event.inputs.project_key }} \
           --repoName=${{ env.REPO_NAME }} \
           --dir=./ \
           --outDir=ld_code_refs

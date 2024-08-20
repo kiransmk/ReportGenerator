@@ -39,6 +39,13 @@ jobs:
           pip install pandas
           pip install -r requirements.txt
   
+      - name: Extract Repository Name
+        run: |
+          echo "Repository: $GITHUB_REPOSITORY"
+          repo_name=$(echo $GITHUB_REPOSITORY | cut -d'/' -f2)
+          echo "Repository Name: $repo_name"
+          echo "REPO_NAME=$repo_name" >> $GITHUB_ENV
+
       - name: Create Output Directory
         run: mkdir -p ld_code_refs
 
@@ -50,7 +57,7 @@ jobs:
           launchdarkly/ld-find-code-refs \
           --accessToken=${{ secrets.LD_ACCESS_TOKEN }} \
           --projKey=default \
-          --repoName=${{ github.event.inputs.repo_name }} \
+          --repoName=${{ env.REPO_NAME }} \
           --dir=./ \
           --outDir=ld_code_refs
         env:
@@ -58,7 +65,7 @@ jobs:
       
       - name: Generate HTML from CSV
         run: |
-          python generate_html.py ld_code_refs/coderefs__ReportGenerator_main.csv ld_code_refs/index.html ${{ github.event.inputs.repo_name }} ${{ github.event.inputs.branch_name }}
+          python generate_html.py ld_code_refs/coderefs__ReportGenerator_main.csv ld_code_refs/index.html ${{ env.REPO_NAME }} ${{ github.event.inputs.branch_name }}
   
       - name: List Output Directory
         run: ls -la ld_code_refs

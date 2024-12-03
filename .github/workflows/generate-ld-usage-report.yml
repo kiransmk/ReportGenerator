@@ -20,8 +20,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          ref: ${{ github.ref }}
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -60,7 +58,10 @@ jobs:
       - name: Generate HTML from CSV
         run: |
           python ld_code_refs/generate_html.py ld_code_refs/coderefs__${{ env.REPO_NAME }}_${{ env.BRANCH_NAME }}.csv ld_code_refs/index.html ${{ env.REPO_NAME }} ${{ env.BRANCH_NAME }}
-    
+
+      - name: List Files in Deployment Directory
+        run: ls -R ld_code_refs
+
       - name: Deploy to Github Pages
         uses: actions/deploy-pages@v3       
         with:

@@ -62,7 +62,6 @@ jobs:
           python ld_code_refs/generate_html.py ld_code_refs/coderefs__${{ env.REPO_NAME }}_${{ env.BRANCH_NAME }}.csv ld_code_refs/index.html ${{ env.REPO_NAME }} ${{ env.BRANCH_NAME }}
     
       - name: Deploy to Github Pages
-        uses: actions/deploy-pages@v2        
+        uses: actions/deploy-pages@v3       
         with:
           publish_dir: ld_code_refs
-          publish_branch: gh-pages

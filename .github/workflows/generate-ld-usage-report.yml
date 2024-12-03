@@ -8,6 +8,10 @@ on:
         required: true
         default: 'default'
 
+permissions:
+  pages: write
+  id-token: write
+
 jobs:
   launchDarklyCodeReferences:
     name: LaunchDarkly Code References
@@ -56,10 +60,9 @@ jobs:
       - name: Generate HTML from CSV
         run: |
           python ld_code_refs/generate_html.py ld_code_refs/coderefs__${{ env.REPO_NAME }}_${{ env.BRANCH_NAME }}.csv ld_code_refs/index.html ${{ env.REPO_NAME }} ${{ env.BRANCH_NAME }}
-      
-      - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v2
+    
+      - name: Deploy to Github Pages
+        uses: actions/deploy-pages@v2        
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ld_code_refs
           publish_branch: gh-pages

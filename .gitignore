@@ -1,4 +1,4 @@
 env/*
-/**/*.csv
+ld_code_refs/*.csv
 
 index.html

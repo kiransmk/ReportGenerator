@@ -13,8 +13,7 @@ permissions:
   id-token: write
 
 jobs:
-  launchDarklyCodeReferences:
-    name: LaunchDarkly Code References
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -62,7 +61,21 @@ jobs:
       - name: List Files in Deployment Directory
         run: ls -R ld_code_refs
 
+      - name: Upload Deployment Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: deployment-files
+          path: ld_code_refs
+  
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build-and-deploy
+    permissions:
+      pages: write
+      id-token: write
+
+    steps:
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v3
         with:
-          publish_dir: ld_code_refs
+          artifact_name: deployment-files

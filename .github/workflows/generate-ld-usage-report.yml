@@ -62,7 +62,7 @@ jobs:
         run: ls -lahR ld_code_refs/
 
       - name: Upload Deployment Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: deployment-files
           path: |

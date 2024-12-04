@@ -82,3 +82,4 @@ jobs:
         uses: actions/deploy-pages@v3
         with:
           artifact_name: deployment-files
+          verbose: true

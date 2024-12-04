@@ -67,9 +67,7 @@ jobs:
         with:
           name: deployment-files
           path: |
-            ld_code_refs/*.html
-            ld_code_refs/*.css
-            ld_code_refs/*.js
+            ld_code_refs/index.html
   
   deploy:
     environment:

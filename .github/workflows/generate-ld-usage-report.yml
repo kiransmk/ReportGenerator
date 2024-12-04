@@ -9,7 +9,6 @@ on:
         default: 'default'
 
 permissions:
-  contents: read
   pages: write
   id-token: write
 
@@ -60,7 +59,7 @@ jobs:
           python ld_code_refs/generate_html.py ld_code_refs/coderefs__${{ env.REPO_NAME }}_${{ env.BRANCH_NAME }}.csv ld_code_refs/index.html ${{ env.REPO_NAME }} ${{ env.BRANCH_NAME }}
 
       - name: List Files in Deployment Directory
-        run: ls -R ld_code_refs/
+        run: ls -lahR ld_code_refs/
 
       - name: Upload Deployment Artifact
         uses: actions/upload-artifact@v3
@@ -72,7 +71,6 @@ jobs:
   deploy:
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     needs: build-and-deploy
 
@@ -82,4 +80,3 @@ jobs:
         uses: actions/deploy-pages@v3
         with:
           artifact_name: deployment-files
-          verbose: true

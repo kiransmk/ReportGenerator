@@ -56,7 +56,7 @@ jobs:
 
       - name: Generate HTML from CSV
         run: |
-          python ld_code_refs/generate_html.py ld_code_refs/coderefs__${{ env.REPO_NAME }}_${{ env.BRANCH_NAME }}.csv ld_code_refs/public/index.html ${{ env.REPO_NAME }} ${{ env.BRANCH_NAME }}
+          python ld_code_refs/generate_html.py ld_code_refs/coderefs__${{ env.REPO_NAME }}_${{ env.BRANCH_NAME }}.csv ld_code_refs/index.html ${{ env.REPO_NAME }} ${{ env.BRANCH_NAME }}
 
       - name: List Files in Deployment Directory
         run: ls -R ld_code_refs/public/
@@ -65,7 +65,10 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: deployment-files
-          path: ld_code_refs/public/
+          path: |
+            ld_code_refs/*.html
+            ld_code_refs/*.css
+            ld_code_refs/*.js
   
   deploy:
     runs-on: ubuntu-latest

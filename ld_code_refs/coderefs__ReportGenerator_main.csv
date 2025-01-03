@@ -1,0 +1,6 @@
+flagKey,projKey,path,startingLineNumber,lines,aliases,contentHash
+FIRST_FLAG,default,launchDarkly.html,23,"
+        // Set flagKey to the feature flag key you want to evaluate
+        const flagKey = 'FIRST_FLAG';
+
+        // Set up the evaluation context. This context should appear on your",,9c6890c4d22cceebe9e0a79fe24b87e3a5b491ba

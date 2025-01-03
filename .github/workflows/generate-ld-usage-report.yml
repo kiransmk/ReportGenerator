@@ -40,19 +40,19 @@ jobs:
           echo "REPO_NAME=$repo_name" >> $GITHUB_ENV
           echo "BRANCH_NAME=$branch_name" >> $GITHUB_ENV
 
-      - name: Run ld-find-code-refs in Docker
-        run: |
-          docker run --rm \
-          -v "$(pwd)":/workspace \
-          -w /workspace \
-          launchdarkly/ld-find-code-refs \
-          --accessToken=${{ secrets.LD_ACCESS_TOKEN }} \
-          --projKey=${{ github.event.inputs.project_key }} \
-          --repoName=${{ env.REPO_NAME }} \
-          --dir=./ \
-          --outDir=ld_code_refs
-        env:
-          GIT_SSH_COMMAND: "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no"
+      # - name: Run ld-find-code-refs in Docker
+      #   run: |
+      #     docker run --rm \
+      #     -v "$(pwd)":/workspace \
+      #     -w /workspace \
+      #     launchdarkly/ld-find-code-refs \
+      #     --accessToken=${{ secrets.LD_ACCESS_TOKEN }} \
+      #     --projKey=${{ github.event.inputs.project_key }} \
+      #     --repoName=${{ env.REPO_NAME }} \
+      #     --dir=./ \
+      #     --outDir=ld_code_refs
+      #   env:
+      #     GIT_SSH_COMMAND: "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no"
 
       - name: Generate HTML from CSV
         run: |

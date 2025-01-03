@@ -2,6 +2,7 @@ import pandas as pd
 from jinja2 import Environment, FileSystemLoader
 import sys
 import re
+import os
 from collections import defaultdict
 import mimetypes
 from datetime import datetime
@@ -64,6 +65,7 @@ def generate_html(data, output_html, repoName, branchName):
     html_content = template.render(data=data, timestamp=timestamp, repoName=repoName, branchName=branchName)
 
     # Write the HTML content to a file
+    os.makedirs(os.path.dirname(output_html), exist_ok=True)
     with open(output_html, 'w') as file:
         file.write(html_content)
 

@@ -61,8 +61,9 @@ jobs:
       - name: List Files in Deployment Directory
         run: ls -lahR ld_code_refs/
 
-      - name: Upload Deployment Artifact
-        uses: actions/upload-artifact@v4
+      - name: Upload static files as artifact
+        id: deployment
+        uses: actions/upload-pages-artifact@v3 # or specific "vX.X.X" version tag for this action
         with:
           name: deployment-files
           path: |

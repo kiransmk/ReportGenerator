@@ -8,9 +8,9 @@ on:
         required: true
         default: 'default'
 
-permissions:
-  pages: write
-  id-token: write
+# permissions:
+#   pages: write
+#   id-token: write
 
 jobs:
   build-and-deploy:
@@ -65,9 +65,7 @@ jobs:
         id: deployment
         uses: actions/upload-pages-artifact@v3 # or specific "vX.X.X" version tag for this action
         with:
-          name: deployment-files
-          path: |
-            ld_code_refs/index.html
+          path: ld_code_refs/
   
   deploy:
     environment:

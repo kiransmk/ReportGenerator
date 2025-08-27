@@ -42,3 +42,10 @@ jobs:
       
       - name: Install Dependencies
         run: npm i
+
+      - name: Lint Changed Files
+        run: |
+          git fetch origin ${{ github.base_ref }}
+          git diff --name-only origin/${{ github.base_ref }}...HEAD | grep '\.js$' | xargs -r npx eslint
+        shell: bash
+        continue-on-error: false

@@ -20,15 +20,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.9'
-    
-      - name: Install Python dependencies
-        run: |
-          pip install -r ld_code_refs/requirements.txt
-  
       - name: Extract Repository Name and Branch Name
         run: |
           echo "Repository: $GITHUB_REPOSITORY"
@@ -40,20 +31,30 @@ jobs:
           echo "REPO_NAME=$repo_name" >> $GITHUB_ENV
           echo "BRANCH_NAME=$branch_name" >> $GITHUB_ENV
 
-      # - name: Run ld-find-code-refs in Docker
-      #   run: |
-      #     docker run --rm \
-      #     -v "$(pwd)":/workspace \
-      #     -w /workspace \
-      #     launchdarkly/ld-find-code-refs \
-      #     --accessToken=${{ secrets.LD_ACCESS_TOKEN }} \
-      #     --projKey=${{ github.event.inputs.project_key }} \
-      #     --repoName=${{ env.REPO_NAME }} \
-      #     --dir=./ \
-      #     --outDir=ld_code_refs
-      #   env:
-      #     GIT_SSH_COMMAND: "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no"
+      - name: Run ld-find-code-refs in Docker
+        run: |
+          docker pull launchdarkly/ld-find-code-refs
+          docker run --rm \
+          -v "$(pwd)":/workspace \
+          -w /workspace \
+          launchdarkly/ld-find-code-refs \
+          --accessToken=${{ secrets.LD_ACCESS_TOKEN }} \
+          --projKey=${{ github.event.inputs.project_key }} \
+          --repoName=${{ env.REPO_NAME }} \
+          --dir=./ \
+          --outDir=ld_code_refs
+        env:
+          GIT_SSH_COMMAND: "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no"
 
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      
+      - name: Install Python dependencies
+        run: |
+          pip install -r ld_code_refs/requirements.txt
+    
       - name: Generate HTML from CSV
         run: |
           python ld_code_refs/generate_html.py ld_code_refs/coderefs__${{ env.REPO_NAME }}_${{ env.BRANCH_NAME }}.csv ld_code_refs/output/index.html ${{ env.REPO_NAME }} ${{ env.BRANCH_NAME }}

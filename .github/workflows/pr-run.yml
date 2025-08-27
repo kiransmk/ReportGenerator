@@ -1,0 +1,44 @@
+name: PR Runner
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, converted_to_draft]
+    paths:
+      - '.github/workflows/pr-run.yml'
+
+  workflow_dispatch:
+    inputs:
+      scan_type:
+        description: 'Type of scan to perform'
+        required: false
+        default: 'full'
+        type: choice
+        options:
+          - 'full'
+          - 'docs-only'
+          - 'staged'
+  
+jobs:
+  pr-run:
+    name: PR Run
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      pull-requests: write
+      checks: write
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Install Dependencies
+        run: npm ci
